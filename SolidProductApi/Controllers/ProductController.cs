@@ -33,6 +33,21 @@ namespace SolidProductApi.Controllers
             return Ok(response.Data);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<ServiceResponse<Product>>> GetProduct([FromRoute]Guid id)
+        {
+            // Henter et produkt fra ProductService asynkront og gemmer det i variablen 'product'
+            var product = await _productService.GetProductAsync(id);
+            // Opretter et nyt ServiceResponse-objekt med typen 'Product' og gemmer 'product' i dets Data-felt
+            var response = new ServiceResponse<Product>
+            {
+                Data = product.Data
+            };
+            // Returnerer en HTTP OK-statuskode sammen med det oprettede ServiceResponse-objekt
+            return Ok(response.Data);
+        }
+
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<Product>>> AddProduct(Product product)
         {
@@ -45,6 +60,32 @@ namespace SolidProductApi.Controllers
                 Data = product
             };
 
+            // Returnerer en HTTP OK-statuskode sammen med det oprettede ServiceResponse-objekt
+            return Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<Product>>> EditProduct(Product product)
+        {
+            // Opdaterer et produkt i ProductService asynkront
+            await _productService.EditProductAsync(product);
+            // Opretter et nyt ServiceResponse-objekt med typen 'Product' og gemmer 'product' i dets Data-felt
+            var response = new ServiceResponse<Product>
+            {
+                Data = product
+            };
+            // Returnerer en HTTP OK-statuskode sammen med det oprettede ServiceResponse-objekt
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult<ServiceResponse<Product>>> DeleteProduct([FromRoute]Guid id)
+        {
+            // Sletter et produkt fra ProductService asynkront
+            await _productService.DeleteProductAsync(id);
+            // Opretter et nyt ServiceResponse-objekt med typen 'Product'
+            var response = new ServiceResponse<Product>();
             // Returnerer en HTTP OK-statuskode sammen med det oprettede ServiceResponse-objekt
             return Ok(response);
         }
