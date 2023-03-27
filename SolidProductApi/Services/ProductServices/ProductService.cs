@@ -5,27 +5,19 @@ namespace SolidProductApi.Services.ProductServices
 {
     public class ProductService : IProductService
     {
-        private readonly DbContext _context;
+        private readonly DataContext _context;
 
-        public ProductService(DbContext dbContext)
+        public ProductService(DataContext DataContext)
         {
-            _context = dbContext;
+            _context = DataContext;
         }
 
         public async Task<ServiceResponse<List<Product>>> GetProductsAsync()
         {
             var serviceResponse = new ServiceResponse<List<Product>>();
 
-            try
-            {
-                var products = await _context.Products.ToListAsync();
-                serviceResponse.Data = products;
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
-            }
+            var products = await _context.Products.ToListAsync();
+            serviceResponse.Data = products;
 
             return serviceResponse;
         }
@@ -34,18 +26,12 @@ namespace SolidProductApi.Services.ProductServices
         {
             var response = new ServiceResponse<Product>();
 
-            try
-            {
-                await _context.Products.AddAsync(product);
-                await _context.SaveChangesAsync();
+            product.Id = Guid.NewGuid();
 
-                response.Data = product;
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = ex.Message;
-            }
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
+
+            response.Data = product;
 
             return response;
         }
