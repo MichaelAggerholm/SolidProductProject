@@ -12,16 +12,42 @@ namespace SolidProductApi.Services.ProductServices
             _context = dbContext;
         }
 
-        public async Task<List<Product>> GetProductsAsync()
+        public async Task<ServiceResponse<List<Product>>> GetProductsAsync()
         {
-            return await _context.Products.ToListAsync();
+            var serviceResponse = new ServiceResponse<List<Product>>();
+
+            try
+            {
+                var products = await _context.Products.ToListAsync();
+                serviceResponse.Data = products;
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
         }
 
-        public async Task<Product> AddProductAsync(Product product)
+        public async Task<ServiceResponse<Product>> AddProductAsync(Product product)
         {
-            await _context.Products.AddAsync(product);
-            await _context.SaveChangesAsync();
-            return product;
+            var response = new ServiceResponse<Product>();
+
+            try
+            {
+                await _context.Products.AddAsync(product);
+                await _context.SaveChangesAsync();
+
+                response.Data = product;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
         }
     }
 }

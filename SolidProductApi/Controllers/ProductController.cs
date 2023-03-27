@@ -26,11 +26,11 @@ namespace SolidProductApi.Controllers
             // Opretter et nyt ServiceResponse-objekt med typen 'List<Product>' og gemmer 'products' i dets Data-felt
             var response = new ServiceResponse<List<Product>>
             {
-                Data = products
+                Data = products.Data
             };
 
             // Returnerer en HTTP OK-statuskode sammen med det oprettede ServiceResponse-objekt
-            return Ok(response);
+            return Ok(response.Data);
         }
 
         [HttpPost]

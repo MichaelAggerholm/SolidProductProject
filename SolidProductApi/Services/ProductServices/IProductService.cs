@@ -4,7 +4,7 @@ namespace SolidProductApi.Services.ProductServices
 {
     public interface IProductService
     {
-        Task<List<Product>> GetProductsAsync();
-        Task<Product> AddProductAsync(Product product);
+        Task<ServiceResponse<List<Product>>> GetProductsAsync();
+        Task<ServiceResponse<Product>> AddProductAsync(Product product);
     }
 }
