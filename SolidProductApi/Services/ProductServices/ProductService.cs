@@ -40,7 +40,9 @@ namespace SolidProductApi.Services.ProductServices
         {
             var response = new ServiceResponse<Product>();
             var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+
             response.Data = product;
+
             return response;
         }
 
@@ -48,11 +50,14 @@ namespace SolidProductApi.Services.ProductServices
         {
             var response = new ServiceResponse<Product>();
             var productToUpdate = await _context.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
+
             productToUpdate.Title = product.Title;
             productToUpdate.Description = product.Description;
             productToUpdate.Price = product.Price;
+
             await _context.SaveChangesAsync();
             response.Data = productToUpdate;
+
             return response;
         }
 
@@ -60,9 +65,11 @@ namespace SolidProductApi.Services.ProductServices
         {
             var response = new ServiceResponse<Product>();
             var productToDelete = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+
             _context.Products.Remove(productToDelete);
             await _context.SaveChangesAsync();
             response.Data = productToDelete;
+
             return response;
         }
     }

@@ -1,6 +1,7 @@
 global using Microsoft.EntityFrameworkCore;
 global using SolidProductApi.Data;
 global using SolidProductApi.Services;
+using SolidProductApi.Services.ElectronicServices;
 using SolidProductApi.Services.ProductServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen();
 
 // Add services
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IElectronicService, ElectronicService>();
 
 builder.Services.AddSqlite<DataContext>("Data Source=SolidProject.db");
 
