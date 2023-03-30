@@ -2,6 +2,7 @@
 
 namespace SolidProductApi.Services.ElectronicServices
 {
+    // Interface benyttes for at sikre at alle klasser der implementerer denne interface, har de samme metoder.
     public interface IElectronicService
     {
         Task<ServiceResponse<List<Electronic>>> GetElectronicsAsync();
