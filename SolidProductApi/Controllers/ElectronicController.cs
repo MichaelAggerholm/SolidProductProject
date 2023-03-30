@@ -13,6 +13,7 @@ namespace SolidProductApi.Controllers
     {
         private readonly IElectronicService _electronicService;
 
+        // Dependency Injection af IElectronicService
         public ElectronicController(IElectronicService electronicService)
         {
             _electronicService = electronicService;
